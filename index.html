@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="no">
+<head>
+	<title>Google APIs - Vol 1</title>
+	<link rel="stylesheet" href="main.css" />
+ </head>
+
+<body>
+
+	<!-- Kolonne 1 (col1) -->
+	<aside id="col1" >
+		<h1>Dagen i dag</h1>
+
+		<!-- Boks med årstidsbilde og dato/tid -->
+		<div id="today">
+			<div id="datetime">
+				<span id="date"><span id="day"></span>.<span id="month"></span>.<span id="year"></span></span>
+				<span id="time"><span id="hour"></span>:<span id="min"></span>:<span id="sek"></span></span>
+			</div>
+		</div>
+
+		<!-- Input av stikkord til bildevisning: Bilde vises i kolonne 2 (col2) -->
+		<h2>Vis bilde</h2>
+		<form id="input" action="javascript:hentBilder($('#tema').val());">
+			<label for="tema">Stikkord:</label><br/>
+			<input type="text" name="tema" id="tema" size=20 />
+			<input type="submit" value="OK" name="ok" />
+		</form>
+		
+		<!-- Boks med kart for lokalt område -->
+		<h2>Din posisjon</h2>
+		<div id="map">
+		</div>
+		
+		<footer><a href="https://webpero.github.io">&copy; 2017 webpero</a></footer>
+	</aside>
+	<!-- End: Kolonne 1 (col1) -->
+	
+	<!-- Kolonne 2 (col2) -->
+	<div id = "col2">
+		<!-- Bilde -->
+		<h2 id="title"></h2>
+		<p id="descr"></p>
+		<p><a id="author" href=""></a>&nbsp;<span id="updated"></span></p>
+		<button id="prev">Forrige</button>&nbsp;
+		<button id="next">Neste</button>&nbsp;
+		<input type="checkbox" id="kikkertStatus" name="kikkertStatus" />&nbsp;<span id="kikkert">Kikkert</span>
+		<div id="image">
+			<img id="dispimg"/>
+		</div>
+		<canvas id="animate"></canvas>
+	</div>
+	<!-- End: Kolonne 2 (col2) -->
+	
+	<!-- JavaScript -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+		// jQuery
+	</script>
+	<script src="jquery.powertimer.js">
+		// Plugin for håndtering av timere (til klokka)
+	</script>
+	<script src="https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyAL58Of35Vjc2CeUAbSPXc1zd1ugUmYL4Q">
+		// Google Maps JavaScript API - API-key er generert fra kraftwerk68@gmail.com
+	</script>
+	<script src="main.js">
+		// Lokalt skript inludert document.ready()
+	</script>
+
+</body>
+</html>
