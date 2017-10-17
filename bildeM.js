@@ -14,7 +14,7 @@ bildeModel.prototype.hentBilde = function hentBilde(query, index, fn) {
 		data: {	
 			q: query,						// Søkestrengen
 			cx: '018034702328520342012:y80oci2ue2i',		// CSE: webpero-peroma 
-			key: 'AIzaSyAL8Of35Vjc2CeUAbSPXc1zd1ugUmYL4Q',		// Google API-key for github&heroku 
+			key: 'AIzaSyAL58Of35Vjc2CeUAbSPXc1zd1ugUmYL4Q',		// Google API-key for github&heroku 
 			/*key: 'AIzaSyCUb7lLbMRJkweAbcXiS3ejObHqnlDkKOQ',		// Google API-key for test	*/			
 			num: 10
 		},
