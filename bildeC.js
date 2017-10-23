@@ -1,5 +1,9 @@
 /* Håndtering av bilder (Controller)
- * 16.10.2017 Per Olav Mariussen
+ *
+ * v2: 	Henter bare resultater én gang og lager en tabell med resultater som inneholder et gyldig bilde	
+ *		Visnig av et bilde forholder seg bare til allerede hentet resultattabell 
+ *
+ * 23.10.2017 Per Olav Mariussen
  *
  *******************************/
 
@@ -14,38 +18,35 @@ bildeController.prototype.initialize = function initialize() {
 	this.bildeView.onClick = this.onClick.bind(this);
 };
 
-/* Sett query som skal brukes til å hente bilder */
-bildeController.prototype.setQuery = function setQuery(query) {
-	this.query = query;
+/* Utfør query som skal brukes til å vise bilder */
+bildeController.prototype.bildeSok = function bildeSok(query) {
+	this.bildeView.loading(); //Vis indikator på at noe skjer
+	this.bildeModel.hentBilder( query, 10, this.visBilde.bind(this) );		// Utfør query og kall visning av første bilde
 };
 
 /* Sett opp klikkhåndtering for bilder (forrige/neste) */
 bildeController.prototype.onClick = function onClick(e) {
-	let target = e.currentTarget,
-		index = parseInt(target.dataset.bildeIndex, 10);
-
-	this.bildeView.loading(); //Vis indikator på at noe skjer
-	this.bildeModel.hentBilde(this.query, index, this.visBilde.bind(this));
+	let bilder = bildeController.bildeModel.bilder;
+	bilder.index = parseInt(e.currentTarget.dataset.bildeIndex, 10);	// Index til bilde som skal vises
+	this.visBilde(bilder);												// Vis bildet
 };
 
-/* Visning av bilde */
+/* Visning av bilde (index til aktuelt bilde ligger i dataobjektet) */
 bildeController.prototype.visBilde = function visBilde(bildeModelData) {
-  let bildeViewModel = {
-    navn: bildeModelData.navn,
-    url: bildeModelData.url,
-    info: bildeModelData.info
-  };
+	let count = bildeModelData.count,
+		index = bildeModelData.index,
+		bildeViewModel = bildeModelData.content[index];
 
-  /* Håndtering av index */
-  bildeViewModel.previousIndex = bildeModelData.index - 1;
-  bildeViewModel.nextIndex = bildeModelData.index + 1;
-  if (bildeModelData.index === 0) {
-    bildeViewModel.previousIndex = bildeModelData.count - 1;
-  }
-  if (bildeModelData.index === bildeModelData.count - 1) {
-    bildeViewModel.nextIndex = 0;
-  }
-  
-  /* Vis bildet */
-  this.bildeView.render(bildeViewModel);
+	/* Håndtering av index for forrige/neste */
+	bildeViewModel.previousIndex = index - 1;
+	bildeViewModel.nextIndex = index + 1;
+	if (index === 0) {
+		bildeViewModel.previousIndex = count - 1;
+	}
+	if (index === count - 1) {
+		bildeViewModel.nextIndex = 0;
+	}
+	  
+	/* Vis aktuelt bilde */
+ 	this.bildeView.render(bildeViewModel);
 };

@@ -1,19 +1,13 @@
 /* MAIN 
- * 13.10.2017 Per Olav Mariussen
+ * 23.10.2017 Per Olav Mariussen
  *
  *******************************/
 
-// Sett opp MVC for bildesøk
+/* Sett opp MVC for bildesøk - Versjon 2 */
 var bildeModel = new bildeModel(),
 	bildeView = new bildeView( $("#image-container") ),
 	bildeController = new bildeController(bildeView, bildeModel);
-	bildeController.initialize();
 	
-function triggerBildeSok( query ) {
-	bildeController.setQuery( query );
-	bildeController.onClick({ currentTarget: { dataset: { bildeIndex: 0 } } });
-}
-
  /* Oppstart av siden */
 $(document).ready(function()
 {
@@ -29,11 +23,16 @@ $(document).ready(function()
 		}
 	});
 	
-	// Sett fokus til input for bildesøk
-	$("#tema").focus();
-		
 	// Hent posisjon og sett opp kart
 	visKart();
+
+	// Init av bildecontroller og input for bildesøk
+	bildeController.initialize();
+	$("#query-form").submit( function(ev) { 
+		bildeController.bildeSok( $("#query").val() );
+		ev.preventDefault();
+	});
+	$("#query").focus();
 });
 
 /* Håndtering av årstid, dato og klokkeslett */
